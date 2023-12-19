@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div class="nav">
+        <a href="index.html">HOME</a>
+        <a href="BED.html">BIOLOGICAL EFFECTIVE DOSE (BED)</a>
+        <a href="PLS.html">CORRECTION FOR ERRORS</a>
+        <a href="PDDT.html">TREATMENT PROTOCOL CHANGE CALCULATOR</a>
+    </div>
+    <title>CORRECTION FOR ERRORS
+</title>
+   <link rel="icon" href="https://cdn.glitch.global/19cc86b7-95e9-4381-bd14-c6e50652f217/5936b03a-a274-4993-b2f6-49b898d74774.image.png?v=1702477153273"/>
+  <link rel="stylesheet" href="PLS.css">
+  <h1>
+    <center>CORRECTION FOR ERRORS
+ </center>
+      </h1>
+</head>
+<body>
+    <div class="form-container">
+    <form id="doseForm">
+      <div>
+        <label for="dp">Planned dosing (dp): </label>
+        <input class="o" type="number" step="0.01" min="0.01" required  id="dp">
+      </div>
+      <br>
+      <div>
+        <input type="radio" id="np" name="npDp" value="np" onclick="toggleInput('np')">
+        <label for="np">Fractions of planning (np)</label><br>
+        <input type="radio" id="Dp" name="npDp" value="Dp" onclick="toggleInput('Dp')">
+        <label for="Dp">The planned total dose (Dp)</label><br>
+        <label id="npDpLabel">Fractions of planning or The planned total dose (np or Dp): </label><input class="o" type="number" step="0.01" min="0.01" required  id="npDp"><br>
+      </div>
+      <br>
+      <div>
+        <label for="de">Wrong dosing (de): </label>
+        <input class="o" type="number" step="0.01" min="0.01" required  id="de"> 
+      </div>
+      <br>
+      <div>
+        <input type="radio" id="ne" name="neDe" value="ne" onclick="toggleInput('ne')">
+        <label for="ne">Fractions Error (ne)</label><br>
+        <input type="radio" id="De" name="neDe" value="De" onclick="toggleInput('De')">
+        <label for="De">The dose given erroneously (De)</label><br>
+        <label id="neDeLabel">Fractions Error or The dose given erroneously (ne or De): </label><input class="o" type="number" step="0.01" min="0.01" required  id="neDe"><br>
+      </div>
+    <br>
+    <div>
+      <button type="button" onclick="calculateValues(event)"><b>Calculate</b></button>
+      <p id="result"></p>
+    </div>
+    <br>
+    </form>
+    <form id="csdlForm">
+    <div style="text-align: justify;">
+      <p><em>Disclaimer: This calculator is offered freely as a helpful tool. All outputs should be independently verified, and the user is solely responsible for the use of the calculator and any results. WE - GROUP 1 disclaims any warranties and is not responsible for how this tool is utilized or the results it provides.</em></p>
+      <h2><b>CORRECTION FOR ERRORS</b><br></h2>
+      <p>Dosimetric errors in delivering the prescribed dose per fraction made early in a treatment can be corrected by modifying the dose per fraction and total dose given subsequently to discovery of the error, using the LQ model to calculate the correcting doses which should be completed within the same overall time as originally prescribed.
+</p>
+      <p> The Mike Joiner  showed how to calculate the dose per fraction used to bring the treatment back exactly to planned tolerance simultaneously for all tissues and tumour involved, following either hyperfractionated or hypofractionated errors made initially, without the need to know any α/β values.
+      </p>
+      <p> The Mike Joiner method definitions:
+      </p>
+      <ul>
+        <li> The planned total dose is:
+          Dp Gy at dp Gy/fraction </li>
+        <li> The dose given erroneously is:
+  De Gy at de Gy/fraction </li>
+        <li> The dose required to complete the course is: Dc Gy at dc Gy/fraction in Nc fractions
+        </li>
+      </ul>
+      <p>
+         Defining planned treatment as dp Gy per fraction to a total dose Dp Gy,suppose the initial error is de Gy per fraction given to a total of De Gy. Using the LQ model to describe all isoeffect relationships between total dose and dose per fraction for the tumour and the normal tissues, then the compensating dose per fraction of dc Gy to a total dose of Dc Gy are given by the simple formulae:
+      </p>
+       <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>D</mi>
+          <mstyle scriptlevel="1">
+          <msub>
+            <mi>c</mi>
+          </msub>
+            </mstyle>
+          <mo>=</mo>
+          <mi>D</mi>
+            <mstyle scriptlevel="1">
+          <msub>
+            <mi>p</mi>
+          </msub>
+            </mstyle>
+          <mo>-</mo>
+          <mi>D</mi>
+            <mstyle scriptlevel="1">
+          <msub>
+            <mi>e</mi>
+          </msub>
+            </mstyle>
+        </math>
+      </div>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mo>&#x21D2;</mo> 
+          <mi>d</mi>
+          <mstyle scriptlevel="1">
+            <msub>
+              <mi>c</mi>
+            </msub>
+          </mstyle>
+          <mo>=</mo>
+          <mfrac>
+            <mrow>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>p</mi>
+                </msub>
+              </mstyle>
+              <mo>&#x22C5;</mo> 
+              <mi>d</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>p</mi>
+                </msub>
+              </mstyle>
+              <mo>-</mo>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>e</mi>
+                </msub>
+              </mstyle>
+              <mo>&#x22C5;</mo> 
+              <mi>d</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>e</mi>
+                </msub>
+              </mstyle>
+            </mrow>
+            <mrow>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>p</mi>
+                </msub>
+              </mstyle>
+              <mo>-</mo>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>e</mi>
+                </msub>
+              </mstyle>
+            </mrow>
+          </mfrac>
+        </math>
+      </div>
+      <h4> Example: <br></h4>
+      <p>  According to the plan, a patient must have 30 fractions, each day with each dose being 1.8Gy. But due to an error, the patient received the first 5 fractions with each dose being 2Gy. How is the treatment regimen adjusted so that the patient still receives the same treatment effect on the tumor and protection on healthy organs as the initia treatment?
+      </p>
+      <p>We have the formulae about correction for error in clinical practice:
+      </p> 
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>d</mi>
+          <mstyle scriptlevel="1">
+            <msub>
+              <mi>c</mi>
+            </msub>
+          </mstyle>
+          <mo>=</mo>
+          <mfrac>
+            <mrow>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>p</mi>
+                </msub>
+              </mstyle>
+              <mo>&#x22C5;</mo> 
+              <mi>d</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>p</mi>
+                </msub>
+              </mstyle>
+              <mo>-</mo>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>e</mi>
+                </msub>
+              </mstyle>
+              <mo>&#x22C5;</mo> 
+              <mi>d</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>e</mi>
+                </msub>
+              </mstyle>
+            </mrow>
+            <mrow>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>p</mi>
+                </msub>
+              </mstyle>
+              <mo>-</mo>
+              <mi>D</mi>
+              <mstyle scriptlevel="1">
+                <msub>
+                  <mi>e</mi>
+                </msub>
+              </mstyle>
+            </mrow>
+          </mfrac>
+        </math>
+      </div>
+      <p> We also have: </p>
+      <div style="text-align: left;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mi>D</mi>
+          <mstyle scriptlevel="1">
+        <msub>
+          <mi>p</mi>
+        </msub>
+            </mstyle>
+        <mo>=</mo>
+        <mi>n</mi>
+        <mo>&#x22C5;</mo>
+        <mi>d</mi>
+          <mstyle scriptlevel="1"> 
+          <msub>
+          <mi>p</mi>
+        </msub>
+          </mstyle>
+        <mo>=</mo>
+        <mn>30</mn>
+        <mo>&#x22C5;</mo>
+        <mn>1.8</mn>
+        <mo>=</mo>
+        <mn>54</mn>
+        <mi>Gy</mi>
+      </math>
+
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mi>D</mi>
+        <mstyle scriptlevel="1">
+        <msub>
+          <mi>e</mi>
+        </msub>
+          </mstyle>
+        <mo>=</mo>
+        <mi>n</mi>
+        <mo>&#x22C5;</mo>
+        <mi>d</mi>
+          <mstyle scriptlevel="1">
+        <msub>
+          <mi>e</mi>
+        </msub>
+            </mstyle>
+        <mo>=</mo>
+        <mn>5</mn>
+        <mo>&#x22C5;</mo>
+        <mn>2</mn>
+        <mo>=</mo>
+        <mn>10</mn>
+        <mi>Gy</mi>
+      </math>
+
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mo>&#x21D2;</mo>
+        <mi>d</mi>
+        <mstyle scriptlevel="1">
+        <msub>
+          <mi>c</mi>
+        </msub>
+          </mstyle>
+        <mo>=</mo>
+        <mfrac>
+          <mrow>
+            <mi>D</mi>
+            <mstyle scriptlevel="1">
+            <msub>
+              <mi>p</mi>
+            </msub>
+              </mstyle>
+            <mo>&#x22C5;</mo>
+            <mi>d</mi>
+              <mstyle scriptlevel="1">
+            <msub>
+              <mi>p</mi>
+            </msub>
+                </mstyle>
+            <mo>-</mo>
+            <mi>D</mi>
+                <mstyle scriptlevel="1">
+            <msub>
+              <mi>e</mi>
+            </msub>
+                </mstyle>  
+            <mo>&#x22C5;</mo>
+            <mi>d</mi>
+                  <mstyle scriptlevel="1">
+            <msub>
+              <mi>e</mi>
+            </msub>
+               </mstyle>     
+          </mrow>
+          <mrow>
+            <mi>D</mi>
+            <mstyle scriptlevel="1">
+            <msub>
+              <mi>p</mi>
+            </msub>
+              </mstyle>
+            <mo>-</mo>
+            <mi>D</mi>
+              <mstyle scriptlevel="1">
+            <msub>
+              <mi>e</mi>
+            </msub>
+                </mstyle>
+          </mrow>
+        </mfrac>
+        <mo>=</mo>
+        <mfrac>
+          <mrow>
+            <mn>54</mn>
+            <mo>&#x22C5;</mo>
+            <mn>1.8</mn>
+            <mo>-</mo>
+            <mn>10</mn>
+            <mo>&#x22C5;</mo>
+            <mn>2</mn>
+          </mrow>
+          <mrow>
+            <mn>54</mn>
+            <mo>-</mo>
+            <mn>10</mn>
+          </mrow>
+        </mfrac>
+        <mo>=</mo>
+        <mn>1.75</mn>
+        <mi>Gy</mi>
+      </math>
+
+      <math xmlns="http://www.w3.org/1998/Math/MathML" style = "font-size: 26px;">
+        <mo>&#x21D2;</mo>
+        <mi>D</mi>
+        <mstyle scriptlevel="1">
+        <msub>
+          <mi>c</mi>
+        </msub>
+          </mstyle>
+        <mo>=</mo>
+        <mi>D</mi>
+          <mstyle scriptlevel="1">
+        <msub>
+          <mi>p</mi>
+        </msub>
+            </mstyle>
+        <mo>-</mo>
+        <mi>D</mi>
+            <mstyle scriptlevel="1">
+        <msub>
+          <mi>e</mi>
+        </msub>
+              </mstyle>
+        <mo>=</mo>
+        <mn>54</mn>
+        <mo>-</mo>
+        <mn>10</mn>
+        <mo>=</mo>
+        <mn>44</mn>
+        <mi>Gy</mi>
+        <mo>&#x21D2;</mo>
+        <mi>n</mi>
+              <mstyle scriptlevel="1">
+        <msub>
+          <mi>c</mi>
+        </msub>
+            </mstyle>    
+        <mo>=</mo>
+        <mn>25</mn>
+      </math>
+      </div>
+      <p>Finally, we have the dose required to complete the course is dc=1,75 Gy ; nc= 25 fractions </p>  
+  </div></form>
+  </div>
+   <div id="result-notification1">
+      <p id="result1"></p>
+      </div>
+    <script>
+      function toggleInput(value) {
+          if (value === 'np') {
+            document.getElementById('ne').checked = true;
+            document.getElementById('npDpLabel').innerText = 'Fractions of planning (Fractions): ';
+          } else if (value === 'Dp') {
+            document.getElementById('De').checked = true;
+            document.getElementById('npDpLabel').innerText = 'The planned total dose (Gy): ';
+          }
+          if (value === 'ne') {
+            document.getElementById('neDeLabel').innerText = 'Fractions Error (Fractions): ';
+          } else if (value === 'De') {
+            document.getElementById('neDeLabel').innerText = 'The dose given erroneously (Gy): ';
+          }
+        }
+        
+        function calculateValues(event) {
+            
+          
+            var dp = document.getElementById("dp").value;
+          var de = document.getElementById("de").value;
+          var npDp = document.getElementById("npDp").value;
+          var neDe = document.getElementById("neDe").value;
+          
+          var dc, nc, dc1, nc1;
+          
+          if (document.getElementById('np').checked && npDp < neDe) {
+            dc = (npDp * dp * dp - neDe * de * de) / (npDp * dp - neDe * de);
+            nc = (npDp * dp - neDe * de) / dc;
+            dc1 = dc.toFixed(2);
+            nc1 = nc.toFixed(0);
+          } else if (document.getElementById('Dp').checked && npDp < neDe) {
+            dc = (npDp * dp - neDe * de) / (npDp - neDe);
+            nc = (Dp - De)/dc;
+            dc1 = dc.toFixed(2);
+            nc1 = nc.toFixed(0);
+          } else {
+            alert("Vui lòng nhập lại dữ liệu");
+            return;
+          }
+                              
+const resultNotification1 = document.getElementById('result-notification1');
+const resultElement = document.getElementById('result1');
+resultNotification1.innerText = 'The adjusted dose: ' + dc1 + ', The adjusted number of fractions ' + nc1;
+resultNotification1.style.display = 'block';
+
+setTimeout(function () {
+    resultNotification1.style.display = '';
+}, 5000 );
+        
+        }
+      
+    </script>
+   <footer>
+    <small> Developed by Medical Physics's students, University of Science, HCMC.
+     </small>
+  </footer>
+</body>
+</html>

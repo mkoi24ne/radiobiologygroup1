@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiobiology group 1</title>
+  <link rel="icon" href="https://cdn.glitch.global/19cc86b7-95e9-4381-bd14-c6e50652f217/5936b03a-a274-4993-b2f6-49b898d74774.image.png?v=1702477153273"/>
+    <link rel="stylesheet" href="index.css">       
+</head>
+<body>
+    <div class="nav">
+        <a href="index.html">HOME</a>
+        <a href="BED.html">BIOLOGICAL EFFECTIVE DOSE (BED)</a>
+        <a href="PLS.html">CORRECTION FOR ERRORS</a>
+        <a href="PDDT.html">REGIMEN TREATMENT CHANGE CALCULATOR</a>
+    </div>
+    <h2>Welcome to Radiobiology website!</h2>
+    <h1>
+      The Linear - Quadratic Model
+    </h1>
+    <ul>It includes the following main ideas:
+      <li>The LQ is currently a standard model in work describing the effects of radioactivity on tissue response and cell survival.</li>
+      <li>The LQ model can be used in changing treatment regimens that are biologically equivalent, calculating compensation for interruptions in radiotherapy, and combining treatment modalities (X-rays, protons).</li>
+      <li>Expression form of The LQ is described by cell survival (S)(where α and β are the LQ parameters):</li>
+      <div style="text-align: center;"> 
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mi>[LQ </mi> <mspace width="10px"/> <mi> SF]</mi>
+        <mo>=</mo>
+        <msup>
+          <mi>e</mi>
+          <mrow>
+            <mi>&alpha;</mi>
+            <mi>D</mi>
+            <mo>+</mo>
+            <mi>&beta;</mi>
+            <msup>
+              <mi>D</mi>
+              <mn>2</mn>
+            </msup>
+          </mrow>
+        </msup>
+      </math>
+      </div>
+      <li>The survived cells are calculated after n fractions and dose of each fraction d</li>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <msup>
+          <mrow>
+            <mo>[</mo>
+            <mi>LQ</mi>
+            <mo>S</mo>
+             <mo>&ApplyFunction;</mo>
+            <mrow>
+              <mo>(</mo>
+              <mi>d</mi>
+              <mo>)</mo>
+            </mrow>
+            <mo>]</mo>
+          </mrow>
+          <mi>n</mi>
+        </msup>
+        <mo>=</mo>
+        <msup>
+          <mi>e</mi>
+          <mrow>
+            <mo>-</mo>
+            <mi>n</mi>
+            <mo>&ApplyFunction;</mo>
+            <mrow>
+              <mo>(</mo>
+              <mi>&alpha;</mi>
+              <mi>d</mi>
+              <mo>+</mo>
+              <mi>&beta;</mi>
+              <msup>
+                <mi>d</mi>
+                <mn>2</mn>
+              </msup>
+              <mo>)</mo>
+            </mrow>
+          </mrow>
+        </msup>
+      </math>
+      </div>
+  </ul>
+
+    <p>
+    <footer>
+    <small>Developed by Medical Physics's students, University of Science, HCMC.
+     </small>
+  </footer>
+</p>
+</body>
+</html>

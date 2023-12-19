@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div class="nav">
+        <a href="index.html">HOME</a>
+        <a href="BED.html">BIOLOGICAL EFFECTIVE DOSE (BED)</a>
+        <a href="PLS.html">CORRECTION FOR ERRORS</a>
+        <a href="PDDT.html">TREATMENT PROTOCOL CHANGE CALCULATOR</a>
+    </div>
+    <title>Regimen Treatment Change</title>
+   <link rel="icon" href="https://cdn.glitch.global/19cc86b7-95e9-4381-bd14-c6e50652f217/5936b03a-a274-4993-b2f6-49b898d74774.image.png?v=1702477153273"/>
+    <link rel="stylesheet" href="PDDT.css">
+    <h1 class="h1">
+      <center>TREATMENT PROTOCOL CHANGE CALCULATOR</center>
+    </h1>   
+</head>
+<body>
+    <div class="form-container">
+        <form id="calculatorForm">
+            <div>
+                <label for="n1">Number of Treatment Fractions 1 (n1):</label>
+                <input class="o" type="number" id="n1" step="1">
+            </div>
+            <br>
+            <div>
+                <label for="d1">Dose per Fraction in Gy 1 (d1):</label>
+                <input class="o" type="number" id="d1" step="0.1">
+            </div>
+            <br>
+            <div>
+                <label for="n2">Number of Treatment Fractions 2 (n2):</label>
+                <input class="o" type="number" id="n2" step="0.1">
+            </div>
+            <br>
+            <div>
+                <label for="d2">Dose per Fraction in Gy 2 (d2):</label>
+                <input class="o" type="number" id="d2" step="0.1">
+            </div>
+            <br>
+            <div>
+                <label for="alphaBetaRatio">Alpha/Beta Ratio (&alpha;/&beta;):</label>
+                <div class="input-group">
+                    <input type="range" class="r" id="alphaBetaRatio" min="1" max="16" step="0.1" value="1" oninput="updateSliderValue1()">
+                    <input type="text" class="o" id="alphaBetaValue" oninput="updateSliderFromInput1()">
+                </div>
+            </div>
+            <br>
+            <button type="button" onclick="calculateValues(event)"><b>Calculate</b></button>
+            <br>
+          <div id="resultContainer" class="cal"></div>
+
+        </form>
+
+        <form id="csdlForm">
+            <div style="text-align: justify;">
+                <p><em>Disclaimer: This calculator is offered freely as a helpful tool. All outputs should be independently verified, and the user is solely responsible for the use of the calculator and any results. WE - GROUP 1 disclaims any warranties and is not responsible for how this tool is utilized or the results it provides.</em></p>
+                <h2><b>THE TREATMENT REGIMEN CHANGE</b><br></h2>
+                <p>In using the LQ model, it is assumed that each fraction has an equal effect, thus for a fractionated regime (n fractions of size d):
+</p>
+       <div style="text-align: center;">
+             <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <msup>
+            <mrow>
+              <mo>[</mo>
+              <mi>LQ</mi>
+              <mspace width="10px"/>
+              <mi>S</mi>
+              <mo>(</mo><mi>d</mi><mo>)</mo>
+              <mo>]</mo>
+            </mrow>
+            <mi>n</mi>
+          </msup>
+          <mo>=</mo>
+          <msup>
+            <mi>e</mi>
+            <mrow>
+              <mo>-</mo>
+              <mi>n</mi>
+              <mo>(</mo>
+              <mi>&alpha;</mi>
+              <mi>d</mi>
+              <mo>+</mo>
+              <mi>&beta;</mi>
+              <msup>
+                <mi>d</mi>
+                <mn>2</mn>
+              </msup>
+              <mo>)</mo>
+            </mrow>
+          </msup>
+        </math>
+      </div>
+              <p>
+                It is further assumed that if different fractionation regimes:
+              </p>
+              <p>
+                For example: n1 fractions of size d1 and n2 fractions of size d2 are isoeffective for a given tissue, they lead to the same surviving fraction (SF). Thus we have:
+              </p>
+              <div style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <mi>LQ</mi>
+                  <mspace width="10px"/>
+                  <mi>S</mi>
+                  <mo>(</mo>
+                  <msub>
+                    <mi>n</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mo>,</mo>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mo>)</mo>
+                  <mo>=</mo>
+                  <mi>LQ</mi>
+                  <mspace width="10px"/>
+                  <mi>S</mi>
+                  <mo>(</mo>
+                  <msub>
+                    <mi>n</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mo>,</mo>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mo>)</mo>
+                </math>
+              </div>
+              <div style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <msub>
+                    <mi>n</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mo>(</mo>
+                  <mi>&alpha;</mi>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mo>+</mo>
+                  <mi>&beta;</mi>
+                  <msubsup>
+                    <mi>d</mi>
+                    <mn>1</mn>
+                    <mn>2</mn>
+                  </msubsup>
+                  <mo>)</mo>
+                  <mo>=</mo>
+                  <msub>
+                    <mi>n</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mo>(</mo>
+                  <mi>&alpha;</mi>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mo>+</mo>
+                  <mi>&beta;</mi>
+                  <msubsup>
+                    <mi>d</mi>
+                    <mn>2</mn>
+                    <mn>2</mn>
+                  </msubsup>
+                  <mo>)</mo>
+                </math>
+              </div>
+              <p> The BED expression was a result of a mathematical derivation of the exponential part of the LQ S model for treatments with n fractions and dose per fraction d. 
+              </p>
+              <div style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <mi>BED</mi>
+                  <mo>=</mo>
+                  <mfrac>
+                    <mi>E</mi>
+                    <mi>&alpha;</mi>
+                  </mfrac>
+                  <mo>=</mo>
+                  <mi>n</mi>
+                  <mi>d</mi>
+                  <mo>(</mo>
+                  <mn>1</mn>
+                  <mo>+</mo>
+                  <mfrac>
+                    <mi>d</mi>
+                    <mrow>
+                      <mi>&alpha;</mi>
+                      <mo>/</mo>
+                      <mi>&beta;</mi>
+                    </mrow>
+                  </mfrac>
+                  <mo>)</mo>
+                </math>
+              </div>
+              <p> α represents events per cell per unit dose (unit is Gy-1), characterizing the mechanism of death mainly at low doses, while β represents events per cell per unit dose squared (unit is Gy-2), characterizing the main lethal mechanism at high doses.The α/β ratio represents the dose at which linear and quadratic components of cell killing are equal for a given tissue. A low α/β ratio (~3) indicates a late response, and a high ratio (~10) suggests an early response in tissue.
+              </p>
+              <p> This means that two adjacent tissues with different α/β ratios, each receiving the same dose and fractionation, will be associated with different values of BED. BED can be used for comparing the biological effects of various radiotherapy schedules and for different types of radiotherapy. For example, if the biological effect of a total dose D1 derived in n1 fractions of dose d1 each is equivalent to the biological effect of a dose D2 in n2 fractions of dose d2, then it follows that the BEDs will be equal. </p>
+              <p> In case, we have 2 treatment regimens with biologically effective doses, so the two treatment regimens have equivalent biological effectiveness and have the same BED:</p>
+               <div style="text-align: center;">
+                 <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <msub>
+                    <mi>n</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mo>&#8290;</mo>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mrow>
+                    <mo>(</mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mfrac>
+                      <msub>
+                        <mi>d</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mrow>
+                        <mi>&alpha;</mi>
+                        <mo>/</mo>
+                        <mi>&beta;</mi>
+                      </mrow>
+                    </mfrac>
+                    <mo>)</mo>
+                  </mrow>
+                  <mo>=</mo>
+                  <msub>
+                    <mi>n</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mo>&#8290;</mo>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mrow>
+                    <mo>(</mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mfrac>
+                      <msub>
+                        <mi>d</mi>
+                        <mn>2</mn>
+                      </msub>
+                      <mrow>
+                        <mi>&alpha;</mi>
+                        <mo>/</mo>
+                        <mi>&beta;</mi>
+                      </mrow>
+                    </mfrac>
+                    <mo>)</mo>
+                  </mrow>
+                </math>
+              </div>
+              <p>
+                From this relationship and knowing the values of n1, d1, n2, and d2, the constant α/β can be determined for the particular tissue and used in the equation to predict other isoeffective treatment schedules
+              </p>
+                <h4>Example:<br></h4>
+                <p>Convert radiotherapy regimen to 50 Gy/25 fractions to a regimen equivalent to a fraction of 3 Gy for breast cancer tissue? α/β of breast cancer tissue is 4 - 4.5 Gy, α/β of healthy breast tissue, chest wall is 3 - 3.5 Gy. Finding the dose fraction of the equivalent treatment regimen.</p>
+              <p> Using the treament regimen change, 2 treatment regimens have equivalent biological effectiveness and have the same BED. </p>
+                <div style="text-align: center;">
+                 <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <msub>
+                    <mi>n</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mo>&#8290;</mo>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>1</mn>
+                  </msub>
+                  <mrow>
+                    <mo>(</mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mfrac>
+                      <msub>
+                        <mi>d</mi>
+                        <mn>1</mn>
+                      </msub>
+                      <mrow>
+                        <mi>&alpha;</mi>
+                        <mo>/</mo>
+                        <mi>&beta;</mi>
+                      </mrow>
+                    </mfrac>
+                    <mo>)</mo>
+                  </mrow>
+                  <mo>=</mo>
+                  <msub>
+                    <mi>n</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mo>&#8290;</mo>
+                  <msub>
+                    <mi>d</mi>
+                    <mn>2</mn>
+                  </msub>
+                  <mrow>
+                    <mo>(</mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mfrac>
+                      <msub>
+                        <mi>d</mi>
+                        <mn>2</mn>
+                      </msub>
+                      <mrow>
+                        <mi>&alpha;</mi>
+                        <mo>/</mo>
+                        <mi>&beta;</mi>
+                      </mrow>
+                    </mfrac>
+                    <mo>)</mo>
+                  </mrow>
+                </math>
+              </div>
+              <div style="text-align: center;">
+                <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <mn>50</mn>
+                <mo>[</mo>
+                <mn>1</mn>
+                <mo>+</mo>
+                <mfrac>
+                  <mn>2</mn>
+                  <mrow>
+                    <mn>4</mn>
+                    <mo>.</mo>
+                    <mn>5</mn>
+                  </mrow>
+                </mfrac>
+                <mo>]</mo>
+                <mo>=</mo>
+                <msub>
+                  <mi>n</mi>
+                  <mn>2</mn>
+                </msub>
+                <mo>&#8290;</mo>
+                <mn>3</mn>
+                <mo>[</mo>
+                <mn>1</mn>
+                <mo>+</mo>
+                <mfrac>
+                  <mn>3</mn>
+                  <mrow>
+                    <mn>4</mn>
+                    <mo>.</mo>
+                    <mn>5</mn>
+                  </mrow>
+                </mfrac>
+                <mo>]</mo>
+              </math>
+              </div>
+                <p>Finally, the number of dose fractions of the equivalent treatment regimen is n2 =14.
+</p>  
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function updateSliderValue1() {
+            var slider1 = document.getElementById('alphaBetaRatio');
+            var valueDisplay1 = document.getElementById('alphaBetaValue');
+            valueDisplay1.value = slider1.value;
+        }
+
+        function updateSliderFromInput1() {
+            var slider1 = document.getElementById('alphaBetaRatio');
+            var valueDisplay1 = document.getElementById('alphaBetaValue');
+
+            if (parseFloat(valueDisplay1.value) >= 1 && parseFloat(valueDisplay1.value) <= 16) {
+                slider1.value = valueDisplay1.value;
+            } else {
+                alert('The Alpha/Beta Ratio is over 1 and less than 16.');
+            }
+        }
+
+        function displayMessage(message) {
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerText = message;
+            resultContainer.style.display = 'block';
+           setTimeout(function () {
+            resultContainer.style.display = 'none';
+        }, 5000);
+        }
+
+        function calculateValues(event) {
+            event.preventDefault();
+          
+            const n1 = parseFloat(document.getElementById('n1').value);
+            const d1 = parseFloat(document.getElementById('d1').value);
+            const n2 = parseFloat(document.getElementById('n2').value);
+            const d2 = parseFloat(document.getElementById('d2').value);
+            const alphaBetaRatio = parseFloat(document.getElementById('alphaBetaRatio').value);
+
+            if (
+                (isNaN(n1) && (isNaN(d1) || isNaN(n2) || isNaN(d2) || isNaN(alphaBetaRatio))) ||
+                (isNaN(d1) && (isNaN(n1) || isNaN(n2) || isNaN(d2) || isNaN(alphaBetaRatio))) ||
+                (isNaN(n2) && (isNaN(n1) || isNaN(d1) || isNaN(d2) || isNaN(alphaBetaRatio))) ||
+                (isNaN(d2) && (isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(alphaBetaRatio))) ||
+                (isNaN(alphaBetaRatio) && (isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(d2)))
+            ) {
+                alert('Please provide other values');
+                return;
+            }
+
+            if (isNaN(n1)) {
+                const message = `n1: ${((n2 * d2 * (1 + d2 / alphaBetaRatio)) / (d1*( 1 + d1 / alphaBetaRatio))).toFixed(2)}`;
+                displayMessage(message);
+            } else if (isNaN(d1)) {
+                const message = `d1: ${((Math.sqrt(alphaBetaRatio*(n2*d2)/n1*(1+d2/alphaBetaRatio)+(1/2 *alphaBetaRatio)^2)-(1/2 *alphaBetaRatio))).toFixed(2)}`;
+                displayMessage(message);
+            } else if (isNaN(n2)) {
+                const message = `n2: ${((n1 * d1 * (1 + d1 / alphaBetaRatio)) / (d2*(1 + d2 / alphaBetaRatio))).toFixed(2)}`;
+                displayMessage(message);
+            } else if (isNaN(d2)) {
+                const message = `d2: ${((Math.sqrt((alphaBetaRatio*n1*d1)/n2*(1+d1/alphaBetaRatio)+(1/2 *alphaBetaRatio)^2)- (1/2 *alphaBetaRatio))).toFixed(2)}`;
+                displayMessage(message);
+            } else if (isNaN(alphaBetaRatio)) {
+                const message = `Alpha/Beta Ratio: ${(n1 * d1 * (1 + d1 / alphaBetaRatio)) / (n2 * d2 * (1 + d2 / alphaBetaRatio)).toFixed(2)}`;
+                displayMessage(message);
+            }
+        }
+    </script>
+    <footer>
+    <small>Developed by Medical Physics's students, University of Science, HCMC.
+     </small>
+  </footer>
+</body>
+</html>

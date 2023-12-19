@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div class="nav">
+        <a href="index.html">HOME</a>
+        <a href="BED.html">BIOLOGICAL EFFECTIVE DOSE (BED)</a>
+        <a href="PLS.html">CORRECTION FOR ERRORS</a>
+        <a href="PDDT.html">TREATMENT PROTOCOL CHANGE CALCULATOR</a>
+    </div>
+    <title>BED Calculator with Tumor Proliferation</title>
+   <link rel="icon" href="https://cdn.glitch.global/19cc86b7-95e9-4381-bd14-c6e50652f217/5936b03a-a274-4993-b2f6-49b898d74774.image.png?v=1702477153273"/>
+  <link rel="stylesheet" href="BED.css">
+    <h1 class="h1">
+      <center>BIOLOGICAL EFFECTIVE DOSE (BED) (Gy)</center>
+    </h1>
+</head>
+<body>
+<div class="form-container">
+  <form id="calculatorForm">
+    <div>
+      <label for="n">Number of treament fractions (n):</label>
+      <input class="o" type="number" id="n" required>
+    </div>
+    <br>
+    <div>
+      <label for="d">Dose per Fraction in Gy (d):</label>
+      <input class="o" type="number" id="d" required>
+    </div>
+    <br>
+    <div class="input-group">
+        <label for="alphabetaRatio"> Alpha/Beta Ratio (α/β):</label>
+        
+            <input class="r" type="range" id="alphabetaRatio" min="1" max="16" step="0.1" value="1" oninput="updateSliderValue1()">
+            <input type="text" class="o" id="alphabetaValue" oninput="updateSliderFromInput1()">
+    </div>
+    <br>
+
+    <div class="input-group">
+      <label for="proliferationConstant">The number of proliferation (K):</label>
+            <input class="r" type="range" id="proliferationConstant" min="0" max="1" step="0.1" value="2" oninput="updateSliderValue()">
+            <input type="text" class="o" id="proliferationValue" oninput="updateSliderFromInput()">
+    </div>
+    <br>
+    
+    <div>
+      <label for="T">The treament time (T) (days):</label>
+      <input class="o" type="number" id="T" required>
+    </div>
+    <br>
+
+    <div>
+      <label for="Tdelay">The delay time (T_delay) (days):</label>
+      <input class="o" type="number" id="Tdelay" required>
+    </div>
+    <br>
+
+    <button type="button" onclick="calculateBED()" class="cal"><b>Calculate BED</b></button>
+    <div id="result-notification">
+      <p id="result"></p>
+      </div>
+  </form>
+    <form id="csdlForm">
+    <div class="csdlF" style="text-align: justify;">
+      <p><em>Disclaimer: This calculator is offered freely as a helpful tool. All outputs should be independently verified, and the user is solely responsible for the use of the calculator and any results. WE - GROUP 1 disclaims any warranties and is not responsible for how this tool is utilized or the results it provides.</em></p>
+      <h2><b>Biologically Effective Dose</b><br></h2>
+      <p>
+        <em><b>Preface:</b></em> In a routine clinical environment, it can be difficult to determine the most effective fractionation for a patient undergoing treatment. Calculating BED allows a physical dose to be converted into a dose that describes the biological effect of the radiation on a tumor or normal tissue to create quality radiation plans that reduce errors and treat patients faster. 
+        Here, we present a BED calculator and a brief background on the topic and its applications.
+      </p>
+      <h4>Biologically Effective Dose—The Basics<br></h4>
+      <p>
+        BED, or Biologically Effective Dose, is a linear-quadratic (LQ)-based formula that considers, in particular, cell survival (S) in radiation treatments with n fractions and d dose per fraction delivered in tissues characterized by LQ parameters α and α/β.
+      </p>
+      <div style="text-align: center;">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <mi>BED</mi>
+            <mo>=</mo>
+            <mi>D</mi>
+            <mo>[</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mfrac>
+              <mi>d</mi>
+              <mrow>
+                <mi>&#945;</mi>
+                <mo>/</mo>
+                <mi>&#946;</mi>
+              </mrow>
+            </mfrac>
+            <mo>]</mo>
+          </math>
+      </div>
+      <p>As an inherent part of the LQ SF model, the origin of BED is explained in the following way. The radiation cell kill (or effect, E) can be expressed as:</p>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>E</mi>
+          <mo>=</mo>
+          <mrow>
+            <mi>&#945;</mi>
+            <mi>D</mi>
+          </mrow>
+          <mo>+</mo>
+          <mrow>
+            <mi>&#946;</mi>
+            <msup>
+              <mi>D</mi>
+              <mn>2</mn>
+            </msup>
+          </mrow>
+        </math>
+      </div>
+      <p>
+        The equation determines the biological effect (E) as a function of dose (D), where is D=n.d , the linear dose damage response (α), and the quadratic dose response in tissue (β).
+      </p>
+      <p>
+        α represents events per cell per unit dose (unit is Gy-1), characterizing the mechanism of death mainly at low doses, while β represents events per cell per unit dose squared (unit is Gy-2), characterizing the main lethal mechanism at high doses.The α/β ratio represents the dose at which linear and quadratic components of cell killing are equal for a given tissue. A low α/β ratio (~3) indicates a late response, and a high ratio (~10) suggests an early response in tissue. 
+      </p>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>BED</mi>
+          <mo>=</mo>
+          <mrow>
+            <mi>n</mi>
+            <mi>d</mi>
+            <mo>[</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mfrac>
+              <mi>d</mi>
+              <mrow>
+                <mi>&#945;</mi>
+                <mo>/</mo>
+                <mi>&#946;</mi>
+              </mrow>
+            </mfrac>
+            <mo>]</mo>
+          </mrow>
+        </math>
+      </div>
+      <h4>The Cell repopulation (CR)<br></h4>
+      <p>
+        In order to evaluate the potential clinical outcome of the three schedules, we used the radiobiological formulation based on the LQ model. 
+      </p>
+      <p>
+        With the introduction of BED in radiotherapy, the biological effects of radiation treatments have been characterized with BED with generic values of α/β = 10 Gy for tumors and α/β = 3 Gy for normal tissues. The biologically effective dose for the tumor was calculated according to the formula derived from the linear quadratic model, including the repopulation effect correction. This correction must be taken into account for post-operative breast tumors treated with radiotherapy because surgical resection can leave behind a handful of viable cells, which, because they are then well vascularized, are capable of rapid growth.
+      </p>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>BED</mi>
+          <mo>=</mo>
+          <mrow>
+            <mi>n</mi>
+            <mi>d</mi>
+            <mo stretchy="false">(</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mfrac>
+              <mi>d</mi>
+              <mrow>
+                <mi>&#945;</mi>
+                <mo>/</mo>
+                <mi>&#946;</mi>
+              </mrow>
+            </mfrac>
+            <mo stretchy="false">)</mo>
+          </mrow>
+          <mo>-</mo>
+          <mi>K</mi>
+          <mrow>
+            <mo>(</mo>
+            <mi>T</mi>
+            <mo>-</mo>
+            <msub>
+              <mi>T</mi>
+              <mi>d</mi>
+            </msub>
+            <mo>)</mo>
+          </mrow>
+        </math>
+      </div>
+      <p>
+        Where d is the fraction size (Gy) and n is the number of fractions. T is the overall treatment time. Td is the delay time to the onset of accelerated repopulation. From the literature (Wyatt), an effective doubling time Teff of 26 days is assumed to start immediately after surgery, and Td is considered zero. K (Gy/day) is the biological dose per day required to compensate for ongoing tumor cell repopulation, calculated based on Tpot (potential doubling time) and α (radiosensitivity coefficient):
+      </p>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>K</mi>
+          <mo>=</mo>
+          <mfrac>
+            <mrow>
+              <mi>ln</mi>
+              <mo>&#x2061;</mo>
+              <mo>(</mo>
+              <mn>2</mn>
+              <mo>)</mo>
+            </mrow>
+            <mrow>
+              <mi>&#945;</mi>
+              <mo>&#8290;</mo> 
+              <msub>
+                <mi>T</mi>
+                <mi>pot</mi>
+              </msub>
+            </mrow>
+          </mfrac>
+        </math>     
+      </div>
+      <h4>Conclusion<br></h4>
+      <p>
+        The Biological Effective Dose (BED) calculator is an important tool in understanding tumor and normal tissue responses across different treatment modalities and fractionation schemes.
+      </p>
+      <h4>
+        Example <br>
+      </h4>
+      <p> A head and neck cancer's patient is exposured 30 times, with 2Gy for each times in 6 weeks. Calculate BED for 2 cases: not repopulation of tumor and repopulation of tumor. With α/β = 3 for late tissues responses and α/β = 10 for acute tissues responses. Beside, we also know k=0.9, T_delay= 28 days (neck-head cancer)</p>
+      <p>
+        In case of not repopulation of tumor: 
+      </p>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" style="font-size:100%">
+          <msub>
+            <mi>BED</mi>
+            <mrow>
+              <mo>(</mo>
+              <mi>tumor</mi>
+              <mo>)</mo>
+            </mrow>
+          </msub>
+          <mo>=</mo>
+          <mn>30</mn>
+          <mo>&#xD7;</mo> 
+          <mn>2</mn>
+          <mo>&#xD7;</mo> 
+          <mrow>
+            <mo>(</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mfrac>
+              <mn>2</mn>
+              <mn>10</mn>
+            </mfrac>
+            <mo>)</mo>
+          </mrow>
+          <mo>=</mo>
+          <mn>72</mn>
+          <mtext>&nbsp;</mtext>
+          <mrow>
+            <mo>(</mo>
+            <mi>Gy</mi>
+            <mo>)</mo>
+          </mrow>
+        </math>
+      </div>
+      <p>
+        In case of repopulation of tumor:
+      </p>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML" >
+          <mi>BED</mi>
+          <mo>=</mo>
+          <mrow>
+            <mi>n</mi>
+            <mi>d</mi>
+            <mo stretchy="false">(</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mfrac>
+              <mi>d</mi>
+              <mrow>
+                <mi>&#945;</mi>
+                <mo>/</mo>
+                <mi>&#946;</mi>
+              </mrow>
+            </mfrac>
+            <mo stretchy="false">)</mo>
+          </mrow>
+          <mo>-</mo>
+          <mi>K</mi>
+          <mrow>
+            <mo>(</mo>
+            <mi>T</mi>
+            <mo>-</mo>
+            <msub>
+              <mi>T</mi>
+              <mi>d</mi>
+            </msub>
+            <mo>)</mo>
+          </mrow>
+        </math>
+      </div>
+      <p>
+        With:
+      </p>
+      <div style="text-align: center;">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mi>T</mi>
+          <mo>=</mo>
+          <mn>6</mn>
+          <mo>&#xD7;</mo>
+          <mn>7</mn>
+          <mo>-</mo>
+          <mn>2</mn>
+          <mo>-</mo>
+          <mn>1</mn>
+          <mo>=</mo>
+          <mn>39</mn>
+          <mtext>&nbsp;</mtext>
+          <mspace width="thinmathspace"/> 
+            <mo>(</mo>
+          <mrow>
+            <mi>days</mi>
+            <mo>)</mo>
+          </mrow>
+        </math>
+      </div>
+      <div style="text-align: center;">
+          <math xmlns="http://www.w3.org/1998/Math/MathML" style="font-size:0.875em" >
+          <mi>BED</mi>
+          <mo>=</mo>
+          <mn>30</mn>
+          <mo>&#xD7;</mo>
+          <mn>2</mn>
+          <mo>&#xD7;</mo> 
+          <mrow>
+            <mo>(</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mfrac>
+              <mn>2</mn>
+              <mn>10</mn>
+            </mfrac>
+            <mo>)</mo>
+          </mrow>
+          <mo>-</mo>
+          <mn>0.9</mn>
+          <mo>&#xD7;</mo> 
+          <mrow>
+            <mo>(</mo>
+            <mn>39</mn>
+            <mo>-</mo>
+            <mn>28</mn>
+            <mo>)</mo>
+          </mrow>
+          <mo>=</mo>
+          <mn>62.1</mn>
+          <mtext>&nbsp;</mtext>
+          <mrow>
+            <mo>(</mo>
+            <mi>Gy</mi>
+            <mo>)</mo>
+          </mrow>
+        </math>
+      </div>
+      </div></form> 
+  </div>
+<script>
+    function updateSliderValue1() {
+        var slider1 = document.getElementById('alphabetaRatio');
+        var valueDisplay1 = document.getElementById('alphabetaValue');
+        valueDisplay1.value = slider1.value;
+    }
+
+    function updateSliderFromInput1() {
+        var slider1 = document.getElementById('alphabetaRatio');
+        var valueDisplay1 = document.getElementById('alphabetaValue');
+
+        if (parseFloat(valueDisplay1.value) >= 1 && parseFloat(valueDisplay1.value) <= 16) {
+            slider1.value = valueDisplay1.value;
+        } else {
+            alert('The Alpha/Beta Ratio is less than 16.');
+        }
+    }
+    function updateSliderValue() {
+        var slider = document.getElementById('proliferationConstant');
+        var valueDisplay = document.getElementById('proliferationValue');
+        valueDisplay.value = slider.value;
+    }
+
+    function updateSliderFromInput() {
+        var slider = document.getElementById('proliferationConstant');
+        var valueDisplay = document.getElementById('proliferationValue');
+
+        if (parseFloat(valueDisplay.value) >= 0 && parseFloat(valueDisplay.value) <= 1) {
+            slider.value = valueDisplay.value;
+        } else {
+            alert('The number of proliferation is not over 1.');
+        }
+    }
+    function calculateBED() {
+        const n = parseFloat(document.getElementById('n').value);
+        const d = parseFloat(document.getElementById('d').value);
+        const alphabetaRatio = parseFloat(document.getElementById('alphabetaRatio').value);
+        const T = parseFloat(document.getElementById('T').value);
+        const Tdelay = parseFloat(document.getElementById('Tdelay').value);
+        const K = parseFloat(document.getElementById('proliferationConstant').value);
+        
+        if (alphabetaRatio < 1 || alphabetaRatio > 16) {
+            alert('The Alpha/Beta Ratio is over 1 and less than 16.');
+            return;
+        }
+
+        const BED = n * d * (1 + d / alphabetaRatio) - K * (T - Tdelay);
+
+        document.getElementById('result').innerHTML = 'Biologically Effective Dose (BED): ' + BED.toFixed(2);
+    
+        const resultNotification = document.getElementById('result-notification');
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = 'Biologically Effective Dose (BED): ' + BED.toFixed(2);
+        resultNotification.style.display = 'block';
+
+        
+        setTimeout(function () {
+            resultNotification.style.display = 'none';
+        }, 5000); 
+    }
+</script>
+<p>
+<footer>
+    <small>Developed by Medical Physics's students, University of Science, HCMC.
+     </small>
+  </footer>
+</p>
+</body>
+</html>
